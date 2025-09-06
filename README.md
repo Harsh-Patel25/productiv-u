@@ -1,6 +1,25 @@
-# ProductivU - Full-Featured Productivity App 🎯
+# MY TODO - Personal Productivity Workspace 🎯
 
-A comprehensive productivity application built with **Vite + React + TypeScript + Tailwind CSS** that runs permanently on your local network and is accessible from PCs and mobile devices.
+This is my personal productivity workspace containing various tools and applications to help me stay organized and productive.
+
+## 📁 Project Structure
+
+```
+MY TODO/
+├── productivity-app/          # Main React TODO App (ProductivU)
+│   ├── src/                  # React source code
+│   ├── public/               # Static assets
+│   ├── dist/                 # Production build (generated)
+│   ├── package.json          # Node.js dependencies
+│   ├── vercel.json           # Deployment config
+│   └── README.md             # App-specific documentation
+├── README.md                 # This file
+└── vercel.json              # Main deployment configuration
+```
+
+## 🚀 ProductivU App
+
+The main application is a comprehensive productivity application built with **Vite + React + TypeScript + Tailwind CSS** that runs both locally and in the cloud.
 
 ## ✨ Features
 
@@ -185,6 +204,18 @@ For detailed setup instructions and troubleshooting, see:
 - [LAN Deployment Guide](./LAN_DEPLOYMENT_GUIDE.md)
 - Check browser console for errors
 - Verify network connectivity and firewall settings
+
+---
+
+## 🌍 Live Access
+
+### Cloud Version (24/7 Available)
+🌐 **Live URL**: [https://productiv-u.vercel.app](https://productiv-u.vercel.app)  
+📱 **Mobile Access**: Works from anywhere with internet connection
+
+### Local Network Version  
+🏠 **Local URL**: `http://192.168.213.22:8080`  
+📱 **Mobile Access**: Same WiFi network required
 
 ---
 
