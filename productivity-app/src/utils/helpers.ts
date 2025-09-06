@@ -7,9 +7,19 @@ export function cn(...inputs: ClassValue[]) {
   return clsx(inputs);
 }
 
-// ID generation
+// ID generation - Fixed collision bug
 export function generateId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  // Use crypto.randomUUID if available (modern browsers)
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  
+  // Enhanced fallback with microsecond precision to prevent collisions
+  const now = performance.now().toString(36);
+  const random = Math.random().toString(36).substr(2);
+  const counter = (Date.now() % 1000000).toString(36);
+  
+  return `${now}-${random}-${counter}`;
 }
 
 // Date formatting utilities
