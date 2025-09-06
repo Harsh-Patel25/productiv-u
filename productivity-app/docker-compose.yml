@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # Development service
+  app-dev:
+    build:
+      context: .
+      target: builder
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    networks:
+      - productiv-network
+    profiles:
+      - dev
+
+  # Production service
+  app-prod:
+    build:
+      context: .
+      target: production
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - productiv-network
+    profiles:
+      - prod
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.productiv-u.rule=Host(`productiv-u.local`)"
+      - "traefik.http.services.productiv-u.loadbalancer.server.port=8080"
+
+  # Optional: Reverse proxy for custom domain
+  traefik:
+    image: traefik:v2.10
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080" # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - productiv-network
+    profiles:
+      - proxy
+
+  # Optional: Database for future scaling
+  database:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: productiv_user
+      POSTGRES_PASSWORD: productiv_pass
+      POSTGRES_DB: productiv_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - productiv-network
+    profiles:
+      - db
+
+volumes:
+  postgres_data:
+
+networks:
+  productiv-network:
+    driver: bridge
